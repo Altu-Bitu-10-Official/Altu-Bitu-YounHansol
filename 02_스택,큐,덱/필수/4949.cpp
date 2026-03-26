@@ -8,28 +8,46 @@ int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
 
-    stack<char> ch;
-
     string str;
 
     while(true){
+
         getline(cin, str);
         if(str == "."){
-            cout << "yes" << '\n';
             break;
         }
+
+        stack<char> ch;
+        bool result = true;
 
         for(int i = 0; i < str.size(); i++){
             if(str[i] == '(' || str[i] == '['){
                 ch.push(str[i]);
             }
-            else if(str[i] == ')'){
-                if(ch.empty() || ch.size)
+
+            if(str[i] == ')'){
+                if(ch.empty() || ch.top() != '('){
+                    result = false;
+                    break;
+                }
+                else if(ch.top() == '('){
+                    ch.pop();
+                }
+            }
+
+            else if(str[i] == ']'){
+                if(ch.empty() || ch.top() != '['){
+                    result = false;
+                    break;
+                }
+                else if(ch.top() == '['){
+                    ch.pop();
+                }
             }
             
 
         }
-        if(ch.empty()){
+        if(result && ch.empty()){
             cout << "yes" << '\n';
         }
         else{
